@@ -72,7 +72,7 @@
         document.querySelectorAll(".draggable").forEach((elem) => {
           elem.addEventListener("dragstart", (e) => {
             elem.style.opacity = "0.5";
-            e.dataTransfer.setData("text", getComputedStyle(elem).backgroundColor); // Store the color on dragstart
+            e.dataTransfer.setData("text", getComputedStyle(elem).backgroundColor); 
           });
           elem.addEventListener("dragend", () => {
             elem.style.opacity = "1";
@@ -84,7 +84,7 @@
         });
       
         kvadrat.addEventListener("drop", (e) => {
-          e.preventDefault(); // Prevent default to allow drop
+          e.preventDefault(); 
           const color = e.dataTransfer.getData("text");
       
           if (!nowcolor) {
@@ -97,9 +97,9 @@
           info.textContent = `Текущий цвет: ${nowcolor}`;
         });
       
-        document.querySelectorAll(".draggable").forEach((elem) => { // Corrected typo: docuement -> document
+        document.querySelectorAll(".draggable").forEach((elem) => { 
           elem.addEventListener("dragstart", (e) => {
-            e.dataTransfer.setData("text", getComputedStyle(elem).backgroundColor); // Corrected to getComputedStyle
+            e.dataTransfer.setData("text", getComputedStyle(elem).backgroundColor); 
           });
         });
       
