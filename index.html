@@ -67,65 +67,63 @@
         const kvadrat = document.getElementById("kvadrat");
         const info = document.getElementById("info");
         let nowcolor = "";
-        
+      
         // обработчик события на перетаскивание
-        document.querySelectorAll(".draggable").forEach(elem => {
-            elem.addEventListener('dragstart',()=>{
-                elem.style.opacity = '0.5';
-            });
-            elem.addEventListener('dragend',()=>{
-                elem.style.opacity = '1';
-            });
+        document.querySelectorAll(".draggable").forEach((elem) => {
+          elem.addEventListener("dragstart", (e) => {
+            elem.style.opacity = "0.5";
+            e.dataTransfer.setData("text", getComputedStyle(elem).backgroundColor); // Store the color on dragstart
+          });
+          elem.addEventListener("dragend", () => {
+            elem.style.opacity = "1";
+          });
         });
-
-        kvadrat.addEventListener('dragover',(e)=>{
-            e.preventDefault();
+      
+        kvadrat.addEventListener("dragover", (e) => {
+          e.preventDefault();
         });
-
-        kvadrat.addEventListener('drop',(e)=>{
-        const color = e.dataTransfer.getData("text");
-        let newColor = color;
-        if(!nowcolor){
+      
+        kvadrat.addEventListener("drop", (e) => {
+          e.preventDefault(); // Prevent default to allow drop
+          const color = e.dataTransfer.getData("text");
+      
+          if (!nowcolor) {
             nowcolor = color;
-            
-        }
-        else{
-            newColor = mixColors(nowcolor,color);
-            nowcolor = newColor;
-        }
-        kvadrat.style.backgroundColor = newColor;
-        info.textContent = `Текущий цвет: ${newColor}`;
-        e.preventDefault();
-    });
-
-    docuement.querySelectorAll('.draggable').forEach(elem=>{
-        elem.addEventListener('dragstart',(e)=>{
-            e.dataTransfer.setData("text", elem.style.backgroundColor);
+          } else {
+            nowcolor = mixColors(nowcolor, color);
+          }
+      
+          kvadrat.style.backgroundColor = nowcolor;
+          info.textContent = `Текущий цвет: ${nowcolor}`;
         });
-    });
-
-    function mixColors(color1,color2){
-        const rgb1 = hexToRgb(color1);
-        const rgb2 = hexToRgb(color2);
-        const mixed = `rgb(${(rgb1.r+rgb2.r) / 2}, ${(rgb1.g+rgb2.g) / 2},${(rgb1.b+rgb2.b) / 2})`;
-        return mixed;
-    }
-    
-    function hexToRgb(color) {
-        const temp = document.createElement('div');
-        temp.style.color = color;
-
-        document.body.appendChild(temp);
-        const rgb = window.getComputedStyle(temp).color;
-        const result = rgb.match(/\d+/g);
-        document.body.removeChild(temp);
-        return {
+      
+        document.querySelectorAll(".draggable").forEach((elem) => { // Corrected typo: docuement -> document
+          elem.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text", getComputedStyle(elem).backgroundColor); // Corrected to getComputedStyle
+          });
+        });
+      
+        function mixColors(color1, color2) {
+          const rgb1 = hexToRgb(color1);
+          const rgb2 = hexToRgb(color2);
+          const mixed = `rgb(${(rgb1.r + rgb2.r) / 2}, ${(rgb1.g + rgb2.g) / 2}, ${(rgb1.b + rgb2.b) / 2})`;
+          return mixed;
+        }
+      
+        function hexToRgb(color) {
+          const temp = document.createElement("div");
+          temp.style.color = color;
+      
+          document.body.appendChild(temp);
+          const rgb = window.getComputedStyle(temp).color;
+          const result = rgb.match(/\d+/g);
+          document.body.removeChild(temp);
+          return {
             r: +result[0],
             g: +result[1],
-            b: +result[2]
-        }; 
-    }
-  
-    </script>
+            b: +result[2],
+          };
+        }
+      </script>
 </body>
 </html>
